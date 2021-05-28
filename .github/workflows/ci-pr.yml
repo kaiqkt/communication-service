@@ -18,12 +18,6 @@ jobs:
             java-version: '1.8'
         - name: run unit tests
           run: mvn test
-        - name: test report
-          run: mvn -B verify -P coverage --no-transfer-progress
-        - uses: codecov/codecov-action@v1
-          with:
-            file: ./**/target/site/jacoco/jacoco.xml
-            name: codecov
     
     build:
       needs: test
