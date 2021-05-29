@@ -17,3 +17,17 @@ spring:
     admin:
       properties:
         bootstrap-servers: localhost:9092
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    password:
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
+    username:

@@ -3,6 +3,7 @@ package communicationservice.domain.consumer
 import com.fasterxml.jackson.databind.ObjectMapper
 import communicationservice.domain.START_TOPIC
 import communicationservice.domain.events.EmailEvent
+import communicationservice.domain.services.EmailService
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.annotation.KafkaListener
@@ -10,7 +11,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class EmailEventConsumer(
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    private val emailService: EmailService
 ) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -29,5 +31,7 @@ class EmailEventConsumer(
                 )
             } id ${consumerRecord.key()} from topic ${consumerRecord.topic()} for event ${emailEvent.eventId}"
         )
+
+        emailService.sendEmail(email)
     }
 }
