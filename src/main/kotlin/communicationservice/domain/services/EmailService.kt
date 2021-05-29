@@ -1,6 +1,7 @@
 package communicationservice.domain.services
 
 import communicationservice.domain.entities.Email
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
@@ -19,6 +20,8 @@ class EmailService(private val emailSender: JavaMailSender, private val template
     @Value("\${spring.mail.username}")
     private lateinit var from: String
 
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     @Throws(MessagingException::class, IOException::class)
     fun sendEmail(email: Email) {
         val message: MimeMessage = emailSender.createMimeMessage()
@@ -34,6 +37,7 @@ class EmailService(private val emailSender: JavaMailSender, private val template
         helper.setSubject(email.subject)
         helper.setFrom(from)
 
+        logger.info("Sent email to ${email.to}, subject ${email.subject} with template ${email.template.path}")
         emailSender.send(message)
     }
 }

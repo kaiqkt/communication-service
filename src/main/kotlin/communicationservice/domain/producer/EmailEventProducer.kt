@@ -6,6 +6,7 @@ import communicationservice.domain.events.Event
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.header.Header
 import org.apache.kafka.common.header.internals.RecordHeader
+import org.slf4j.LoggerFactory
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
 
@@ -14,8 +15,14 @@ class EmailEventProducer(
     private val kafkaTemplate: KafkaTemplate<String, String>,
     private val objectMapper: ObjectMapper
 ){
+
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     fun send(event: Event, topic: String) {
         val producerRecord = getProducerRecord(event, topic)
+
+        logger.info("Send event ${producerRecord.headers().headers("eventType")}")
+
         kafkaTemplate.send(producerRecord).get()
     }
 
