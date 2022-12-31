@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: communication-service
+  mail:
+    password: springboot
+    username: duke
+    host: 127.0.0.1
+    port: 3025
+    protocol: smtp
+twilio:
+  account-sid: AC23db9596312314f5bb30458c9aadd40
+  auth-token: 0a5ccb07b51b2424123f312636f8100e26
+  sender-phone-number: +19289166531
+  url: http://127.0.0.1:8081
+
+aws:
+  access-key: 123secret
+  secret-key: 123secret
+  region: us-east-1
+  sqs:
+    email-queue-name: communication-sqs-email
+    sms-queue-name: communication-sqs-sms
+    endpoint: http://localhost:4566/000000000000/
+  s3:
+    endpoint: http://localhost:4567
+
+service-shared-secret: world
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    url: /api-docs.yml

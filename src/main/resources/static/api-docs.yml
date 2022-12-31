@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  title: "communication-service"
+  version: 1.0.0
+  description: >-
+    Business management service.
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /email:
+    post:
+      tags:
+        - Email
+      description:
+        Send one email
+      operationId: sendOne
+      security:
+        - ServiceAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/vnd.kaiqkt_email_v1+json:
+            schema:
+              $ref: '#/components/schemas/EmailV1'
+      responses:
+        204:
+          description: Email sent with successfully
+  /sms:
+    post:
+      tags:
+        - Sms
+      description:
+        Send one sms
+      operationId: sendOne
+      security:
+        - ServiceAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/vnd.kaiqkt_sms_v1+json:
+            schema:
+              $ref: '#/components/schemas/SmsV1'
+      responses:
+        204:
+          description: Sms sent with successfully
+
+components:
+  schemas:
+    SmsV1:
+      type: object
+      properties:
+        phone:
+          $ref: '#/components/schemas/PhoneV1'
+        template:
+          $ref: '#/components/schemas/TemplateV1'
+      required:
+        - phone
+        - template
+
+    EmailV1:
+      type: object
+      properties:
+        subject:
+          type: string
+        recipient:
+          type: string
+        template:
+          $ref: '#/components/schemas/TemplateV1'
+      required:
+        - subject
+        - recipient
+        - template
+
+    TemplateV1:
+      type: object
+      properties:
+        url:
+          type: string
+        data:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+        - url
+        - data
+
+    PhoneV1:
+      type: object
+      properties:
+        country_code:
+          type: string
+        area_code:
+          type: string
+        phone_number:
+          type: string
+      required:
+        - country_code
+        - area_code
+        - phone_number
+
+    ErrorResponseV1:
+      type: object
+      properties:
+        details:
+          type: object
+
+  securitySchemes:
+    CustomerAuth:
+      type: http
+      scheme: bearer
+    ServiceAuth:
+      type: apiKey
+      name: Authorization
+      in: header

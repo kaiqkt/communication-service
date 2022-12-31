@@ -1,0 +1,44 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: communication-service
+  mail:
+    default-encoding: UTF-8
+    host: ${MAIL_HOST}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
+
+aws:
+  access-key: ${AWS_ACCESS_KEY}
+  secret-key: ${AWS_SECRET_KEY}
+  region: ${AWS_REGION}
+  sqs:
+    email-queue-name: ${AWS_SQS_EMAIL_QUEUE_NAME}
+    sms-queue-name: ${AWS_SQS_SMS_QUEUE_NAME}
+    endpoint: ${AWS_SQS_ENDPOINT}
+  s3:
+    endpoint: ${AWS_S3_ENDPOINT}
+
+twilio:
+  account-sid: ${TWILIO_ACCOUNT_SID}
+  auth-token: ${TWILIO_AUTH_TOKEN}
+  sender-phone-number: ${TWILIO_SENDER_PHONE}
+  url: ${TWILIO_URL}
+
+service-shared-secret: ${SERVICE_SECRET}
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    url: /api-docs.yml
