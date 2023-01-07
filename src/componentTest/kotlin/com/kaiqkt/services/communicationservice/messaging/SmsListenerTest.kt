@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.kaiqkt.services.communicationservice.ApplicationIntegrationTest
 import com.kaiqkt.services.communicationservice.application.messaging.SmsListener
 import com.kaiqkt.services.communicationservice.domain.entities.SmsSampler
+import com.kaiqkt.services.communicationservice.domain.entities.TemplateSampler
 import com.kaiqkt.services.communicationservice.holder.S3MockServer
 import com.kaiqkt.services.communicationservice.holder.SQSMockServer
 import com.kaiqkt.services.communicationservice.resources.sms.helpers.TwilioMock
@@ -29,6 +30,21 @@ class SmsListenerTest : ApplicationIntegrationTest() {
         smsListener.onMessage(message)
 
         TwilioMock.sendSms.verifySendSms(twilioAccountSid, 1)
+    }
+
+    @Test
+    fun `given a send sms message, when fail, should be consumed with successfully and get template in s3 and send sms`() {
+        TwilioMock.sendSms.mockSendSms(twilioAccountSid)
+
+        val sms = SmsSampler.sample()
+            .copy(template = TemplateSampler.smsInvalid())
+            .run { jacksonObjectMapper().writeValueAsString(this) }
+        val message = SQSMockServer.getSQSSession(amazonSQSAsync).createTextMessage(sms)
+        uploadFile()
+
+        smsListener.onMessage(message)
+
+        TwilioMock.sendSms.verifySendSms(twilioAccountSid, 0)
     }
 
     fun uploadFile() {

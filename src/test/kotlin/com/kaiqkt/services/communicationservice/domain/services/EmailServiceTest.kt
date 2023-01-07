@@ -46,9 +46,7 @@ class EmailServiceTest {
 
         every { templateFileRepository.find(any()) } throws ResourceException("Unable to retrieve file")
 
-        assertThrows<ResourceException> {
-            emailService.send(email)
-        }
+        emailService.send(email)
 
         verify { templateFileRepository.find(email.template.url) }
         verify(exactly = 0) { springMailService.send(email.recipient, email.subject, renderedTemplateFile) }
