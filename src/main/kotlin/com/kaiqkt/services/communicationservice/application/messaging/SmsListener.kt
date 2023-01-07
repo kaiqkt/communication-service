@@ -1,7 +1,5 @@
 package com.kaiqkt.services.communicationservice.application.messaging
 
-import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.JsonMappingException
 import com.kaiqkt.services.communicationservice.application.ext.fromMessage
 import com.kaiqkt.services.communicationservice.domain.entities.Sms
 import com.kaiqkt.services.communicationservice.domain.services.SmsService
@@ -18,9 +16,10 @@ class SmsListener(
 
     @JmsListener(destination = "\${aws.sqs.sms-queue-name}")
     fun onMessage(message: Message) {
-            logger.info("Receiving sms message")
-            val sms = message.fromMessage(Sms::class.java)
-            smsService.send(sms)
+        logger.info("Receiving sms message")
+
+        val sms = message.fromMessage(Sms::class.java)
+        smsService.send(sms)
     }
 
     companion object {

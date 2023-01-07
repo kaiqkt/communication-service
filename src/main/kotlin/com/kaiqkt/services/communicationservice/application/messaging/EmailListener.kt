@@ -18,6 +18,7 @@ class EmailListener(
     @JmsListener(destination = "\${aws.sqs.email-queue-name}")
     fun onMessage(message: Message) {
         logger.info("Receiving email message")
+
         val email = message.fromMessage(Email::class.java)
         emailService.send(email)
     }

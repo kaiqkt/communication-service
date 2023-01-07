@@ -10,4 +10,9 @@ object TemplateSampler {
         url = "communication-d-1/redefine-password.txt",
         data = mapOf("name" to "shinji")
     )
+
+    fun smsInvalid() = Template(
+        url = "communication-d-1/redefin-password.txt",
+        data = mapOf("name" to "shinji")
+    )
 }

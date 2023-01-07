@@ -2,11 +2,13 @@ package com.kaiqkt.services.communicationservice.application.messaging
 
 import com.amazon.sqs.javamessaging.message.SQSTextMessage
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.kaiqkt.services.communicationservice.domain.entities.EmailSampler
 import com.kaiqkt.services.communicationservice.domain.entities.SmsSampler
 import com.kaiqkt.services.communicationservice.domain.services.SmsService
-import io.mockk.*
-import org.junit.jupiter.api.BeforeEach
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.runs
+import io.mockk.verify
 import org.junit.jupiter.api.Test
 import javax.jms.TextMessage
 

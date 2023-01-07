@@ -6,7 +6,7 @@ build/
 !**/src/test/**/build/
 gradle.properties
 application-*.yml
-docker/storage
+docker/localstack/storage
 
 ### STS ###
 .apt_generated

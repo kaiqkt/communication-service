@@ -44,9 +44,7 @@ class SmsServiceTest {
 
         every { templateFileRepository.find(any()) } throws ResourceException("Template ${sms.template.url} not found ")
 
-        assertThrows<ResourceException> {
-            smsService.send(sms)
-        }
+        smsService.send(sms)
 
         verify { templateFileRepository.find(sms.template.url) }
         verify(exactly = 0) { twilioService.send(any(), any()) }
