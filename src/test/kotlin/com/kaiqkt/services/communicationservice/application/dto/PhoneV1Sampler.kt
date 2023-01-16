@@ -4,8 +4,6 @@ import com.kaiqkt.services.communicationservice.generated.application.dto.PhoneV
 
 object PhoneV1Sampler {
     fun sample() = PhoneV1(
-        countryCode = "55",
-        areaCode = "11",
-        phoneNumber = "940028922"
+        number = "5511940028922"
     )
 }
