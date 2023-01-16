@@ -26,7 +26,7 @@ class SmsService(
         try {
             val templateFile = templateFileRepository.find(sms.template.url)
             val renderedTemplate = StringSubstitutor(sms.template.data).replace(templateFile.content)
-            val completeNumber = sms.phone.completeNumber
+            val completeNumber = sms.phone.number
             twilioService.send(completeNumber, renderedTemplate)
         } catch (ex: Exception) {
             logger.info("Unable to send sms, error ${ex.message}")
