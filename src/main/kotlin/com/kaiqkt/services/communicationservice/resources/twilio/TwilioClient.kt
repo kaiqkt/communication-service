@@ -23,10 +23,10 @@ class TwilioClient(
     @Value("\${twilio.sender-phone-number}")
     private val senderPhoneNumber: String
 ) {
-    fun sendSms(phoneNumber: String, message: String) {
-        logger.info("Sending sms message to $phoneNumber")
+    fun sendSms(recipient: String, message: String) {
+        logger.info("Sending sms message to $recipient")
 
-        val body = "Body=$message&From=$senderPhoneNumber&To=$phoneNumber"
+        val body = "Body=$message&From=$senderPhoneNumber&To=$recipient"
         Fuel.post("$serviceUrl/Accounts/$accountSid/Messages.json")
             .authentication()
             .basic(accountSid, authToken)
@@ -39,12 +39,12 @@ class TwilioClient(
             .response().let { (_, response, result) ->
                 when {
                     response.isSuccessful -> {
-                        logger.info("Sms sent to: $phoneNumber successfully")
+                        logger.info("Sms sent to: $recipient successfully")
                     }
 
                     else -> {
                         throw ResourceException(
-                            "Failed to send sms for $phoneNumber, status ${response.statusCode}, result: $result"
+                            "Failed to send sms for $recipient, status ${response.statusCode}, result: $result"
                         )
                     }
                 }

@@ -9,7 +9,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 class SmsService(
@@ -26,8 +25,8 @@ class SmsService(
         try {
             val templateFile = templateFileRepository.find(sms.template.url)
             val renderedTemplate = StringSubstitutor(sms.template.data).replace(templateFile.content)
-            val completeNumber = sms.phone.number
-            twilioService.send(completeNumber, renderedTemplate)
+
+            twilioService.send(sms.recipient, renderedTemplate)
         } catch (ex: Exception) {
             logger.info("Unable to send sms, error ${ex.message}")
         }

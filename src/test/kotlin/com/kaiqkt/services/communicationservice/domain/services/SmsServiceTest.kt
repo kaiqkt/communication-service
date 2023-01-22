@@ -35,7 +35,7 @@ class SmsServiceTest {
         smsService.send(sms)
 
         verify { templateFileRepository.find(sms.template.url) }
-        verify { twilioService.send(sms.phone.number, renderedTemplateFile) }
+        verify { twilioService.send(sms.recipient, renderedTemplateFile) }
     }
 
     @Test

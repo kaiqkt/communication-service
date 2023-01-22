@@ -23,9 +23,9 @@ class TwilioServiceImplementationTest {
 
         every { twilioClient.sendSms(any(), any()) } just runs
 
-        twilioService.send(sms.phone.number, "hello world")
+        twilioService.send(sms.recipient, "hello world")
 
-        verify { twilioClient.sendSms(sms.phone.number, "hello world") }
+        verify { twilioClient.sendSms(sms.recipient, "hello world") }
     }
 
     @Test
@@ -35,10 +35,10 @@ class TwilioServiceImplementationTest {
         every { twilioClient.sendSms(any(), any()) } throws ResourceException("error")
 
         assertThrows<ResourceException> {
-            twilioService.send(sms.phone.number, "hello world")
+            twilioService.send(sms.recipient, "hello world")
         }
 
-        verify { twilioClient.sendSms(sms.phone.number, "hello world") }
+        verify { twilioClient.sendSms(sms.recipient, "hello world") }
 
     }
 }
