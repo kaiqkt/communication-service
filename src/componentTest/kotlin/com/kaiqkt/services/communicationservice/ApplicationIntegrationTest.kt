@@ -1,6 +1,7 @@
 package com.kaiqkt.services.communicationservice
 
 import com.amazonaws.services.sqs.AmazonSQSAsync
+import com.kaiqkt.services.communicationservice.domain.repositories.NotificationCacheRepository
 import com.kaiqkt.services.communicationservice.domain.repositories.NotificationRepository
 import com.kaiqkt.services.communicationservice.holder.S3MockServer
 import com.kaiqkt.services.communicationservice.holder.SQSMockServer
@@ -60,6 +61,8 @@ class ApplicationIntegrationTest {
     lateinit var amazonSQSAsync: AmazonSQSAsync
     @Autowired
     lateinit var notificationRepository: NotificationRepository
+    @Autowired
+    lateinit var cacheNotificationRepository: NotificationCacheRepository
 
     lateinit var webSocketStompClient: WebSocketStompClient
 

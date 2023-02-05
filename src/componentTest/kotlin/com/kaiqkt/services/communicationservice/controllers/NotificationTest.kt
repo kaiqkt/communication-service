@@ -7,6 +7,10 @@ import com.kaiqkt.commons.security.auth.ROLE_USER
 import com.kaiqkt.services.communicationservice.ApplicationIntegrationTest
 import com.kaiqkt.services.communicationservice.application.dto.NotificationV1Sampler
 import com.kaiqkt.services.communicationservice.domain.entities.Notification
+import com.kaiqkt.services.communicationservice.domain.entities.NotificationHistory
+import com.kaiqkt.services.communicationservice.domain.entities.NotificationHistorySampler
+import com.kaiqkt.services.communicationservice.domain.entities.NotificationSampler
+import com.kaiqkt.services.communicationservice.generated.application.dto.NotificationHistoryV1
 import com.kaiqkt.services.communicationservice.resources.websocket.WebsocketSessionHolder
 import io.azam.ulidj.ULID
 import org.junit.jupiter.api.Assertions
@@ -86,6 +90,62 @@ class NotificationTest : ApplicationIntegrationTest() {
         Assertions.assertFalse(hasSession)
     }
 
+    @Test
+    fun `given a user,when exist a notification history should return them with http status 200`() {
+        val notification = NotificationSampler.sample()
+        val userId = ULID.random()
+        val token = JWTUtils.generateToken(userId, customerSecret, listOf(ROLE_USER), ULID.random(), 1)
+
+        notificationRepository.insert(userId, notification)
+
+        webTestClient
+            .get()
+            .uri("/notification")
+            .header(Headers.AUTHORIZATION, "Bearer $token")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(NotificationHistoryV1::class.java)
+            .consumeWith{ response ->
+                val body = response.responseBody
+                Assertions.assertEquals(body?.notifications?.size, 1)
+            }
+    }
+
+    @Test
+    fun `given a user,when exist a notification history in cache, should return them with http status 200`() {
+        val history = NotificationHistorySampler.sample()
+        val userId = ULID.random()
+        val token = JWTUtils.generateToken(userId, customerSecret, listOf(ROLE_USER), ULID.random(), 1)
+
+        cacheNotificationRepository.insert(userId, history)
+
+        webTestClient
+            .get()
+            .uri("/notification")
+            .header(Headers.AUTHORIZATION, "Bearer $token")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(NotificationHistoryV1::class.java)
+            .consumeWith{ response ->
+                val body = response.responseBody
+                Assertions.assertEquals(body?.notifications?.size, 1)
+            }
+    }
+
+    @Test
+    fun `given a user,when not exist a notification history, should return http status 204`() {
+        val token = JWTUtils.generateToken(ULID.random(), customerSecret, listOf(ROLE_USER), ULID.random(), 1)
+
+        webTestClient
+            .get()
+            .uri("/notification")
+            .header(Headers.AUTHORIZATION, "Bearer $token")
+            .exchange()
+            .expectStatus()
+            .isNoContent
+    }
 
     fun setUpListener(userId: String) {
         val token = JWTUtils.generateToken(userId, customerSecret, listOf(ROLE_USER), ULID.random(), 1)

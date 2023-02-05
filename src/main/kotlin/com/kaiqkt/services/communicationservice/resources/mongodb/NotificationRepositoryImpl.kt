@@ -3,6 +3,7 @@ package com.kaiqkt.services.communicationservice.resources.mongodb
 import com.kaiqkt.services.communicationservice.domain.entities.Notification
 import com.kaiqkt.services.communicationservice.domain.entities.NotificationHistory
 import com.kaiqkt.services.communicationservice.domain.repositories.NotificationRepositoryCustom
+import org.springframework.data.mongodb.core.FindAndModifyOptions
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
@@ -13,7 +14,7 @@ import java.time.LocalDateTime
 @Component
 class NotificationRepositoryImpl(private val mongoTemplate: MongoTemplate) : NotificationRepositoryCustom {
 
-    override fun insert(userId: String, notification: Notification) {
+    override fun insert(userId: String, notification: Notification): NotificationHistory? {
         val query = Query().addCriteria(Criteria.where("id").`is`(userId))
 
         val update = Update().apply {
@@ -21,6 +22,6 @@ class NotificationRepositoryImpl(private val mongoTemplate: MongoTemplate) : Not
             this.set("updatedAt", LocalDateTime.now())
         }
 
-        mongoTemplate.upsert(query, update, NotificationHistory::class.java)
+        return mongoTemplate.findAndModify(query, update, FindAndModifyOptions().upsert(true).returnNew(true), NotificationHistory::class.java)
     }
 }
