@@ -69,6 +69,24 @@ paths:
       responses:
         204:
           description: Sms sent with successfully
+  /notification:
+    get:
+      tags:
+        - Notification
+      description:
+        Get notifications for user
+      operationId: find
+      security:
+        - CustomerAuth: [ ]
+      responses:
+        200:
+          description: Get notification history successfully
+          content:
+            application/vnd.kaiqkt_notification_v1+json:
+              schema:
+                $ref: '#/components/schemas/NotificationHistoryV1'
+        204:
+          description: Notification history not found
 
 components:
   schemas:
@@ -122,6 +140,15 @@ components:
         - title
         - recipient
         - body
+
+    NotificationHistoryV1:
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationV1'
+
 
     ErrorResponseV1:
       type: object

@@ -29,6 +29,7 @@ val excludePackages: List<String> by extra {
 		"com/kaiqkt/services/communicationservice/resources/aws/s3/AmazonS3Config**",
 		"com/kaiqkt/services/communicationservice/resources/exceptions/**",
 		"com/kaiqkt/services/communicationservice/resources/websocket/config/**",
+		"com/kaiqkt/services/communicationservice/resources/cache/RedisConfig**",
 	)
 }
 
@@ -113,6 +114,8 @@ dependencies {
 
 	//database
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("redis.clients:jedis:3.8.0")
 
 	//logging
 	implementation("org.slf4j:slf4j-api")
@@ -138,6 +141,7 @@ dependencies {
 
 	componentTestImplementation("org.elasticmq:elasticmq-rest-sqs_2.12:0.15.8")
 	componentTestImplementation("io.findify:s3mock_2.12:0.2.5")
+	componentTestImplementation("it.ozimov:embedded-redis:0.7.3")
 	componentTestImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.4.8")
 	componentTestImplementation("org.awaitility:awaitility-kotlin:4.2.0")
 	componentTestImplementation("org.springframework.boot:spring-boot-starter-test")

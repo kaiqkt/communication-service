@@ -7,3 +7,8 @@ fun NotificationV1.toDomain() = Notification(
     title = this.title,
     body = this.body
 )
+
+fun Notification.toV1() = NotificationV1(
+    title = this.title,
+    body = this.body
+)

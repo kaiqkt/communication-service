@@ -7,6 +7,14 @@ spring:
     host: 127.0.0.1
     port: 3025
     protocol: smtp
+  data:
+    mongodb:
+      uri: mongodb://admin:communication-service@localhost:27017/communication-service?authSource=admin
+  redis:
+    host: localhost
+    port: 6379
+    password: communication-service
+
 twilio:
   account-sid: AC23db9596312314f5bb30458c9aadd40
   auth-token: 0a5ccb07b51b2424123f312636f8100e26

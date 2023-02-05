@@ -30,7 +30,20 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: "communication-service"
     volumes:
       - communication-mongo:/data/db
+  communication-redis:
+    container_name: communication-redis
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning --requirepass 'communication-service'
+    volumes:
+      - communication-redis:/data/cache
 
 volumes:
   communication-mongo:
+    driver: local
+  communication-redis:
+    driver: local
+  localstack:
     driver: local
