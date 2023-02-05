@@ -25,6 +25,9 @@ aws:
     endpoint: http://localhost:4567
 
 service-shared-secret: world
+customer-auth-signing-secret: world
+
+ignore-generic-paths: /ws, /user/**/private
 
 springdoc:
   api-docs:

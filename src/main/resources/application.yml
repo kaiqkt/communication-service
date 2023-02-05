@@ -36,6 +36,9 @@ twilio:
   url: ${TWILIO_URL}
 
 service-shared-secret: ${SERVICE_SECRET}
+customer-auth-signing-secret: ${CUSTOMER_AUTH_SECRET}
+
+ignore-generic-paths: /ws, /user/**/private
 
 springdoc:
   api-docs:
