@@ -17,6 +17,14 @@ spring:
             enable: true
     protocol: smtp
     test-connection: false
+  data:
+    mongodb:
+      authentication-database: admin
+      host: ${MONGO_HOST}
+      port: ${MONGO_PORT}
+      username: ${MONGO_USERNAME}
+      password: ${MONGO_PASSWORD}
+      database: ${MONGO_DATABASE}
 
 aws:
   access-key: ${AWS_ACCESS_KEY}
@@ -36,6 +44,9 @@ twilio:
   url: ${TWILIO_URL}
 
 service-shared-secret: ${SERVICE_SECRET}
+customer-auth-signing-secret: ${CUSTOMER_AUTH_SECRET}
+
+ignore-generic-paths: /ws, /user/**/private
 
 springdoc:
   api-docs:

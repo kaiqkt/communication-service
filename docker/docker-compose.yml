@@ -18,3 +18,19 @@ services:
       - ./localstack:/docker-entrypoint-initaws.d
       - ./localstack/storage:/tmp/localstack
       - /var/run/docker.sock:/var/run/docker.sock
+  communication-mongodb:
+    container_name: communication-mongodb
+    image: mongo:3
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: "communication-service"
+      MONGO_INITDB_ROOT_USERNAME: "communication-service"
+      MONGO_INITDB_ROOT_PASSWORD: "communication-service"
+    volumes:
+      - communication-mongo:/data/db
+
+volumes:
+  communication-mongo:
+    driver: local

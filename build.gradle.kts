@@ -20,13 +20,15 @@ val excludePackages: List<String> by extra {
 		"com/kaiqkt/services/communicationservice/generated/application/dto/**",
 		"com/kaiqkt/services/communicationservice/application/dto/**",
 		"com/kaiqkt/services/communicationservice/application/ext/**",
+		"com/kaiqkt/services/communicationservice/application/handler/WebSocketHandler**",
 		"com/kaiqkt/services/communicationservice/resources/swagger/**",
 		"com/kaiqkt/services/communicationservice/domain/entities/**",
 		"com/kaiqkt/services/communicationservice/domain/exceptions/**",
 		"com/kaiqkt/services/communicationservice/resources/aws/sqs/JmsConfig**",
 		"com/kaiqkt/services/communicationservice/resources/aws/sqs/AmazonSQSConfig**",
 		"com/kaiqkt/services/communicationservice/resources/aws/s3/AmazonS3Config**",
-		"com/kaiqkt/services/communicationservice/resources/exceptions/**"
+		"com/kaiqkt/services/communicationservice/resources/exceptions/**",
+		"com/kaiqkt/services/communicationservice/resources/websocket/config/**",
 	)
 }
 
@@ -93,8 +95,9 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
 	//commons
-	implementation("com.kaiqkt.commons:commons-security:1.1.4")
+	implementation("com.kaiqkt.commons:commons-security:1.3.0")
 	implementation("com.kaiqkt.commons:commons-health:1.0.0")
+	implementation("com.kaiqkt.commons:commons-crypto:1.0.2")
 
 	//swagger
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
@@ -104,7 +107,12 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.security:spring-security-messaging")
 	implementation("org.springframework:spring-jms:5.3.21")
+	implementation("org.springframework.boot:spring-boot-starter-websocket")
+
+	//database
+	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 
 	//logging
 	implementation("org.slf4j:slf4j-api")
@@ -130,6 +138,7 @@ dependencies {
 
 	componentTestImplementation("org.elasticmq:elasticmq-rest-sqs_2.12:0.15.8")
 	componentTestImplementation("io.findify:s3mock_2.12:0.2.5")
+	componentTestImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.4.8")
 	componentTestImplementation("org.awaitility:awaitility-kotlin:4.2.0")
 	componentTestImplementation("org.springframework.boot:spring-boot-starter-test")
 	componentTestImplementation("org.mock-server:mockserver-netty:5.11.2")
