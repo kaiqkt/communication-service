@@ -36,10 +36,11 @@ class WebSocketHandler(
                                 log.info("Web socket session saved successfully for user ${authentication.id} in holder")
                             }
                         } else {
-                            throw AccessDeniedException("Bearer token not passed")
+                            session.close(CloseStatus.NOT_ACCEPTABLE)
                         }
                     } catch (e: Exception) {
-                        session.close(CloseStatus.POLICY_VIOLATION) }
+                        session.close(CloseStatus.POLICY_VIOLATION)
+                    }
 
                     super.afterConnectionEstablished(session)
                 }
