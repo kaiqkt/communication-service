@@ -61,6 +61,6 @@ class WebSocketHandler(
     }
 
     companion object {
-        private val log: Logger = LoggerFactory.getLogger(ErrorHandler::class.java)
+        private val log: Logger = LoggerFactory.getLogger(this::class.java)
     }
 }
