@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 class ErrorHandler : ResponseEntityExceptionHandler() {
 
     companion object {
-        private val log: Logger = LoggerFactory.getLogger(ErrorHandler::class.java)
+        private val log: Logger = LoggerFactory.getLogger(this::class.java)
     }
 
     @ExceptionHandler(DomainException::class)
