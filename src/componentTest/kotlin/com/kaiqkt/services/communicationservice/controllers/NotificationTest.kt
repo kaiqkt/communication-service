@@ -1,13 +1,12 @@
 package com.kaiqkt.services.communicationservice.controllers
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.kittinunf.fuel.core.Headers
 import com.kaiqkt.commons.crypto.jwt.JWTUtils
 import com.kaiqkt.commons.security.auth.ROLE_USER
 import com.kaiqkt.services.communicationservice.ApplicationIntegrationTest
 import com.kaiqkt.services.communicationservice.application.dto.NotificationV1Sampler
+import com.kaiqkt.services.communicationservice.application.ext.mapper
 import com.kaiqkt.services.communicationservice.domain.entities.Notification
-import com.kaiqkt.services.communicationservice.domain.entities.NotificationHistory
 import com.kaiqkt.services.communicationservice.domain.entities.NotificationHistorySampler
 import com.kaiqkt.services.communicationservice.domain.entities.NotificationSampler
 import com.kaiqkt.services.communicationservice.generated.application.dto.NotificationHistoryV1
@@ -49,7 +48,7 @@ class NotificationTest : ApplicationIntegrationTest() {
             .expectStatus()
             .isNoContent
 
-        val notification = jacksonObjectMapper().readValue(blockingQueue.poll(1, TimeUnit.SECONDS), Notification::class.java)
+        val notification = mapper.readValue(blockingQueue.poll(1, TimeUnit.SECONDS), Notification::class.java)
 
         Assertions.assertEquals(request.title, notification.title)
         Assertions.assertEquals(request.body, notification.body)
@@ -106,7 +105,7 @@ class NotificationTest : ApplicationIntegrationTest() {
             .expectStatus()
             .isOk
             .expectBody(NotificationHistoryV1::class.java)
-            .consumeWith{ response ->
+            .consumeWith { response ->
                 val body = response.responseBody
                 Assertions.assertEquals(body?.notifications?.size, 1)
             }
@@ -128,7 +127,7 @@ class NotificationTest : ApplicationIntegrationTest() {
             .expectStatus()
             .isOk
             .expectBody(NotificationHistoryV1::class.java)
-            .consumeWith{ response ->
+            .consumeWith { response ->
                 val body = response.responseBody
                 Assertions.assertEquals(body?.notifications?.size, 1)
             }

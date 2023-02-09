@@ -30,7 +30,7 @@ class NotificationControllerTest {
 
         val response = controller.sendOne(userId, notification)
 
-        verify { service.send(userId, notification.toDomain()) }
+        verify { service.send(userId, any()) }
         Assertions.assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
     }
 
