@@ -136,6 +136,18 @@ components:
           type: string
         body:
           type: string
+      required:
+        - title
+        - recipient
+        - body
+
+    NotificationResponseV1:
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
         created_at:
           type: LocalDateTime
       required:
@@ -150,7 +162,7 @@ components:
         notifications:
           type: array
           items:
-            $ref: '#/components/schemas/NotificationV1'
+            $ref: '#/components/schemas/NotificationResponseV1'
 
 
     ErrorResponseV1:
