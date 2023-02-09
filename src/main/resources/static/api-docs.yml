@@ -141,13 +141,28 @@ components:
         - recipient
         - body
 
+    NotificationResponseV1:
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        created_at:
+          type: LocalDateTime
+      required:
+        - title
+        - recipient
+        - body
+        - created_at
+
     NotificationHistoryV1:
       type: object
       properties:
         notifications:
           type: array
           items:
-            $ref: '#/components/schemas/NotificationV1'
+            $ref: '#/components/schemas/NotificationResponseV1'
 
 
     ErrorResponseV1:
