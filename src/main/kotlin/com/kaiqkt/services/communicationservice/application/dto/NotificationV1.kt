@@ -10,5 +10,6 @@ fun NotificationV1.toDomain() = Notification(
 
 fun Notification.toV1() = NotificationV1(
     title = this.title,
-    body = this.body
+    body = this.body,
+    createdAt = this.createdAt
 )

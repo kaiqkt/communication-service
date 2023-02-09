@@ -136,10 +136,13 @@ components:
           type: string
         body:
           type: string
+        created_at:
+          type: LocalDateTime
       required:
         - title
         - recipient
         - body
+        - created_at
 
     NotificationHistoryV1:
       type: object
