@@ -143,7 +143,7 @@ class NotificationTest : ApplicationIntegrationTest() {
             .header(Headers.AUTHORIZATION, "Bearer $token")
             .exchange()
             .expectStatus()
-            .isNoContent
+            .isNotFound
     }
 
     fun setUpListener(userId: String) {

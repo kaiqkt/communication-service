@@ -85,7 +85,7 @@ paths:
             application/vnd.kaiqkt_notification_v1+json:
               schema:
                 $ref: '#/components/schemas/NotificationHistoryV1'
-        204:
+        404:
           description: Notification history not found
 
 components:
