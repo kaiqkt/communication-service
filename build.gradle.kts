@@ -186,6 +186,7 @@ tasks.withType<CreateStartScripts> { mainClass.set(mainPkgAndClass) }
 
 tasks.jar {
 	isZip64 = true
+	enabled = false
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	manifest {
 		attributes("Main-Class" to mainPkgAndClass)
