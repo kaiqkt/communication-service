@@ -62,6 +62,6 @@ class NotificationControllerTest {
 
         verify { service.find(authentication.id!!) }
 
-        Assertions.assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
     }
 }

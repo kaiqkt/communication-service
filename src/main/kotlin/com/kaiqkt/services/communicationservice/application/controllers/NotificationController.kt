@@ -28,6 +28,6 @@ class NotificationController(private val notificationService: NotificationServic
         notificationService.find(getUserId())?.also {
             return ResponseEntity.ok(it.toV1())
         }
-        return ResponseEntity.noContent().build()
+        return ResponseEntity.notFound().build()
     }
 }
