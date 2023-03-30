@@ -4,6 +4,6 @@ object NotificationSampler {
 
     fun sample() = Notification(
         title = "title",
-        body = "body"
+        body = "<html>shinji</html>"
     )
 }

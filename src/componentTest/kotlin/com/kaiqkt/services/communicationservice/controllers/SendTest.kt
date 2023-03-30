@@ -3,6 +3,7 @@ package com.kaiqkt.services.communicationservice.controllers
 import com.github.kittinunf.fuel.core.Headers
 import com.kaiqkt.services.communicationservice.ApplicationIntegrationTest
 import com.kaiqkt.services.communicationservice.application.dto.EmailV1Sampler
+import com.kaiqkt.services.communicationservice.application.dto.PushV1Sampler
 import com.kaiqkt.services.communicationservice.application.dto.SmsV1Sampler
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -43,6 +44,25 @@ class SendTest : ApplicationIntegrationTest() {
             .isNoContent
 
         val messages = amazonSQSAsync.receiveMessage(smsQueue).messages
+
+        Assertions.assertEquals(1, messages.size)
+    }
+
+    @Test
+    fun `given a send push request, when is send successfully, should return http status 204`() {
+        val push = PushV1Sampler.sample()
+
+        webTestClient
+            .post()
+            .uri("/push")
+            .contentType(MediaType.parseMediaType("application/vnd.kaiqkt_push_v1+json"))
+            .header(Headers.AUTHORIZATION, serviceSecret)
+            .bodyValue(push)
+            .exchange()
+            .expectStatus()
+            .isNoContent
+
+        val messages = amazonSQSAsync.receiveMessage(pushQueue).messages
 
         Assertions.assertEquals(1, messages.size)
     }

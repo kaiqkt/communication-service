@@ -28,7 +28,7 @@ class SmsService(
 
             twilioService.send(sms.recipient, renderedTemplate)
         } catch (ex: Exception) {
-            logger.info("Unable to send sms, error ${ex.message}")
+            logger.error("Unable to send sms, error ${ex.message}")
         }
     }
 

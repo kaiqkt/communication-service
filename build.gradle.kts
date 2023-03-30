@@ -108,14 +108,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("org.springframework.security:spring-security-messaging")
 	implementation("org.springframework:spring-jms:5.3.21")
-	implementation("org.springframework.boot:spring-boot-starter-websocket")
 
 	//database
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
-	implementation("org.springframework.boot:spring-boot-starter-data-redis")
-	implementation("redis.clients:jedis:3.8.0")
 
 	//logging
 	implementation("org.slf4j:slf4j-api")

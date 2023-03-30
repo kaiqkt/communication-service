@@ -7,7 +7,7 @@ import com.kaiqkt.services.communicationservice.domain.entities.EmailSampler
 import com.kaiqkt.services.communicationservice.domain.entities.TemplateSampler
 import com.kaiqkt.services.communicationservice.holder.S3MockServer
 import com.kaiqkt.services.communicationservice.holder.SQSMockServer
-import com.kaiqkt.services.communicationservice.resources.email.SpringMailMock
+import com.kaiqkt.services.communicationservice.resources.springemail.SpringMailMock
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,9 +31,9 @@ class EmailListenerTest : ApplicationIntegrationTest() {
     }
 
     @Test
-    fun `given a send email message, when given a error, should do nothing`() {
+    fun `given a send email message, when fail, should do nothing`() {
         val email = EmailSampler.sample()
-            .copy(template = TemplateSampler.smsInvalid())
+            .copy(template = TemplateSampler.invalidSample())
             .run { jacksonObjectMapper().writeValueAsString(this) }
         val message = SQSMockServer.getSQSSession(amazonSQSAsync).createTextMessage(email)
 

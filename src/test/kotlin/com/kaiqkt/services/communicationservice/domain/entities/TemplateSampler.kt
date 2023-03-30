@@ -6,12 +6,17 @@ object TemplateSampler {
         data = mapOf("name" to "shinji")
     )
 
-    fun smsSample() = Template(
+    fun pushTemplateSample() = Template(
+        url = "communication-d-1/new-purchase.txt",
+        data = mapOf()
+    )
+
+    fun smsTemplateSample() = Template(
         url = "communication-d-1/redefine-password.txt",
         data = mapOf("name" to "shinji")
     )
 
-    fun smsInvalid() = Template(
+    fun invalidSample() = Template(
         url = "communication-d-1/redefin-password.txt",
         data = mapOf("name" to "shinji")
     )

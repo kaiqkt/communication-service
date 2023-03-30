@@ -36,10 +36,16 @@ aws:
   region: ${AWS_REGION}
   sqs:
     email-queue-name: ${AWS_SQS_EMAIL_QUEUE_NAME}
+    push-queue-name: ${AWS_SQS_PUSH_QUEUE_NAME}
     sms-queue-name: ${AWS_SQS_SMS_QUEUE_NAME}
     endpoint: ${AWS_SQS_ENDPOINT}
   s3:
     endpoint: ${AWS_S3_ENDPOINT}
+
+one-signal:
+  auth-token: ${ONE_SIGNAL_AUTH_TOKEN}
+  app-id: ${ONE_SIGNAL_APP_ID}
+  url: ${ONE_SIGNAL_URL}
 
 twilio:
   account-sid: ${TWILIO_ACCOUNT_SID}

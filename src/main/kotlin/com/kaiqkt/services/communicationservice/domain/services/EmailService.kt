@@ -27,9 +27,8 @@ class EmailService(
             val renderedTemplate = StringSubstitutor(email.template.data).replace(templateFile.content)
             springMailService.send(email.recipient, email.subject, renderedTemplate)
         } catch (ex: Exception) {
-            logger.info("Unable to send email, error: {${ex.message}}")
+            logger.error("Unable to send email, error: {${ex.message}}")
         }
-
     }
 
     companion object {
