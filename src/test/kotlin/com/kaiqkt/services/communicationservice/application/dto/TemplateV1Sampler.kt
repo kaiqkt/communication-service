@@ -12,4 +12,9 @@ object TemplateV1Sampler {
         url = "communication-sqs-d-1/emails/welcome-email-template.html",
         data = emptyMap()
     )
+
+    fun samplePushTemplate() = TemplateV1(
+        url = "communication-sqs-d-1/push/new-purchase.txt",
+        data = emptyMap()
+    )
 }

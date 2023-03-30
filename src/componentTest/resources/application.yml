@@ -19,7 +19,7 @@ twilio:
   account-sid: AC23db9596312314f5bb30458c9aadd40
   auth-token: 0a5ccb07b51b2424123f312636f8100e26
   sender-phone-number: +19289166531
-  url: http://127.0.0.1:8081
+  url: http://127.0.0.1:8081/twilio
 
 aws:
   access-key: 123secret
@@ -27,6 +27,7 @@ aws:
   region: us-east-1
   sqs:
     email-queue-name: communication-sqs-email
+    push-queue-name: communication-sqs-push
     sms-queue-name: communication-sqs-sms
     endpoint: http://localhost:4566/000000000000/
   s3:
@@ -34,6 +35,11 @@ aws:
 
 service-shared-secret: world
 customer-auth-signing-secret: world
+
+one-signal:
+  auth-token: 123secret
+  app-id: 111111-111111-111111
+  url: http://127.0.0.1:8081/one-signal
 
 ignore-generic-paths: /ws, /user/**/private
 

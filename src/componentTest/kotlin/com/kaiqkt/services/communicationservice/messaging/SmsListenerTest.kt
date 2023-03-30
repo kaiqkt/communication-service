@@ -7,7 +7,7 @@ import com.kaiqkt.services.communicationservice.domain.entities.SmsSampler
 import com.kaiqkt.services.communicationservice.domain.entities.TemplateSampler
 import com.kaiqkt.services.communicationservice.holder.S3MockServer
 import com.kaiqkt.services.communicationservice.holder.SQSMockServer
-import com.kaiqkt.services.communicationservice.resources.sms.helpers.TwilioMock
+import com.kaiqkt.services.communicationservice.resources.twilio.helpers.TwilioMock
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -37,7 +37,7 @@ class SmsListenerTest : ApplicationIntegrationTest() {
         TwilioMock.sendSms.mockSendSms(twilioAccountSid)
 
         val sms = SmsSampler.sample()
-            .copy(template = TemplateSampler.smsInvalid())
+            .copy(template = TemplateSampler.invalidSample())
             .run { jacksonObjectMapper().writeValueAsString(this) }
         val message = SQSMockServer.getSQSSession(amazonSQSAsync).createTextMessage(sms)
         uploadFile()

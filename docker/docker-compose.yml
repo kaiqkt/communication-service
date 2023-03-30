@@ -9,11 +9,11 @@ services:
       - AWS_SECRET_ACCESS_KEY=123secret
       - AWS_ACCESS_KEY_ID=123secret
       - DEBUG=1
-      - DATA_DIR=/tmp/localstack/data
+      - DATA_DIR=/var/lib/localstack/data
     command: sh ./localstack/init-localstack.sh
     volumes:
-      - ./localstack:/docker-entrypoint-initaws.d
-      - ./localstack/storage:/tmp/localstack
+      - ./localstack:/etc/localstack/init/ready.d
+      - ./localstack/storage:/var/lib/localstack
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - communication-service-network
@@ -65,11 +65,15 @@ services:
       AWS_SQS_ENDPOINT:  http://communication-localstack:4566/000000000000/
       AWS_S3_ENDPOINT: http://communication-localstack:4566/
       AWS_SQS_EMAIL_QUEUE_NAME: communication-sqs-email
-      AWS_SQS_SMS_QUEUE_NAME:  communication-sqs-sms
+      AWS_SQS_SMS_QUEUE_NAME: communication-sqs-sms
+      AWS_SQS_PUSH_QUEUE_NAME: communication-sqs-push
       TWILIO_ACCOUNT_SID:
       TWILIO_AUTH_TOKEN:
       TWILIO_SENDER_PHONE:
       TWILIO_URL: https://api.twilio.com/2010-04-01
+      ONE_SIGNAL_AUTH_TOKEN:
+      ONE_SIGNAL_APP_ID:
+      ONE_SIGNAL_URL: https://onesignal.com
       SERVICE_SECRET: world
       CUSTOMER_AUTH_SECRET: world
     networks:

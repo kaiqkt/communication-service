@@ -44,45 +44,37 @@ paths:
       responses:
         204:
           description: Sms sent with successfully
-  /notification/{user_id}:
+  /push:
     post:
       tags:
-        - Notification
+        - Push
       description:
-        Send notification to user
+        Send push notification to user
       operationId: sendOne
-      parameters:
-        - name: user_id
-          in: path
-          description: id of a specific user
-          required: true
-          schema:
-            type: string
       security:
         - ServiceAuth: [ ]
       requestBody:
         required: true
         content:
-          application/vnd.kaiqkt_notification_v1+json:
+          application/vnd.kaiqkt_push_v1+json:
             schema:
-              $ref: '#/components/schemas/NotificationV1'
+              $ref: '#/components/schemas/PushV1'
       responses:
         204:
-          description: Sms sent with successfully
-  /notification:
+          description: Push sent with successfully
     get:
       tags:
         - Notification
       description:
         Get notifications for user
-      operationId: find
+      operationId: findAll
       security:
         - CustomerAuth: [ ]
       responses:
         200:
           description: Get notification history successfully
           content:
-            application/vnd.kaiqkt_notification_v1+json:
+            application/vnd.kaiqkt_push_v1+json:
               schema:
                 $ref: '#/components/schemas/NotificationHistoryV1'
         404:
@@ -116,6 +108,20 @@ components:
         - recipient
         - template
 
+    PushV1:
+      type: object
+      properties:
+        title:
+          type: string
+        recipient:
+          type: string
+        template:
+          $ref: '#/components/schemas/TemplateV1'
+      required:
+        - title
+        - recipient
+        - template
+
     TemplateV1:
       type: object
       properties:
@@ -127,21 +133,8 @@ components:
             type: string
       required:
         - url
-        - data
 
     NotificationV1:
-      type: object
-      properties:
-        title:
-          type: string
-        body:
-          type: string
-      required:
-        - title
-        - recipient
-        - body
-
-    NotificationResponseV1:
       type: object
       properties:
         title:
@@ -152,7 +145,6 @@ components:
           type: LocalDateTime
       required:
         - title
-        - recipient
         - body
         - created_at
 
@@ -162,7 +154,7 @@ components:
         notifications:
           type: array
           items:
-            $ref: '#/components/schemas/NotificationResponseV1'
+            $ref: '#/components/schemas/NotificationV1'
 
 
     ErrorResponseV1:
