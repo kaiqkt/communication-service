@@ -5,5 +5,5 @@ import com.kaiqkt.services.communicationservice.domain.entities.Template
 
 fun TemplateV1.toDomain() = Template(
     url = this.url,
-    data = this.data
+    data = this.data ?: mapOf()
 )

@@ -133,7 +133,6 @@ components:
             type: string
       required:
         - url
-        - data
 
     NotificationV1:
       type: object
