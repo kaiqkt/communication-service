@@ -64,7 +64,7 @@ paths:
           description: Push sent with successfully
     get:
       tags:
-        - Notification
+        - Push
       description:
         Get notifications for user
       operationId: findAll
@@ -79,6 +79,25 @@ paths:
                 $ref: '#/components/schemas/NotificationHistoryV1'
         404:
           description: Notification history not found
+  /push/{notification_id}:
+    patch:
+      tags:
+        - Push
+      description:
+        Update the notification when is visualized
+      operationId: visualize
+      security:
+        - CustomerAuth: [ ]
+      parameters:
+        - name: notification_id
+          in: path
+          description: notification id of a notification
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Notification visualized successfully
 
 components:
   schemas:
@@ -155,7 +174,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/NotificationV1'
-
 
     ErrorResponseV1:
       type: object

@@ -10,7 +10,7 @@ import io.azam.ulidj.ULID
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
-class GetNotificationsTest : ApplicationIntegrationTest() {
+class NotificationsTest : ApplicationIntegrationTest() {
 
     @Test
     fun `given a request to get the notification history, when exist, should return it`(){
@@ -39,7 +39,6 @@ class GetNotificationsTest : ApplicationIntegrationTest() {
     fun `given a request to get the notification history, when not exist, should return http status 404`(){
         val userId = ULID.random()
 
-
         val token = JWTUtils.generateToken(userId, customerSecret, listOf(ROLE_USER), ULID.random(), 2)
 
         webTestClient
@@ -51,4 +50,22 @@ class GetNotificationsTest : ApplicationIntegrationTest() {
             .isNotFound
     }
 
+    @Test
+    fun `given a request to update the notification, should return http status 204`(){
+        val userId = ULID.random()
+        val history = NotificationHistorySampler.sample().copy(id = userId)
+        val notificationId = history.notifications.first().id
+
+        notificationHistoryRepository.save(history)
+
+        val token = JWTUtils.generateToken(userId, customerSecret, listOf(ROLE_USER), ULID.random(), 2)
+
+        webTestClient
+            .patch()
+            .uri("/push/$notificationId")
+            .header(Headers.AUTHORIZATION, "Bearer $token")
+            .exchange()
+            .expectStatus()
+            .isNoContent
+    }
 }

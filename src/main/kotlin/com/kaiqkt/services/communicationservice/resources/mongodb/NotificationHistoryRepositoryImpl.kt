@@ -29,4 +29,19 @@ class NotificationHistoryRepositoryImpl(private val mongoTemplate: MongoTemplate
             throw PersistenceException("Error inserting new notification to user $userId}, Error: $ex")
         }
     }
+
+    override fun updateNotification(userId: String, notificationId: String) {
+        try {
+            val query = Query().addCriteria(Criteria.where("id").`is`(userId).and("notifications.id").`is`(notificationId))
+
+            val update = Update().apply {
+                this.set("notifications.$.isVisualized", true)
+                this.set("updatedAt", LocalDateTime.now())
+            }
+
+            mongoTemplate.updateMulti(query, update, NotificationHistory::class.java)
+        }catch (ex: Exception) {
+            throw PersistenceException("Error updating notification $notificationId to user $userId}, Error: $ex")
+        }
+    }
 }
