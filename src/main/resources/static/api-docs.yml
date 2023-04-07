@@ -76,7 +76,9 @@ paths:
           content:
             application/vnd.kaiqkt_push_v1+json:
               schema:
-                $ref: '#/components/schemas/NotificationHistoryV1'
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationV1'
         404:
           description: Notification history not found
   /push/{notification_id}:
@@ -169,14 +171,6 @@ components:
         - body
         - created_at
         - is_visualized
-
-    NotificationHistoryV1:
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/NotificationV1'
 
     ErrorResponseV1:
       type: object

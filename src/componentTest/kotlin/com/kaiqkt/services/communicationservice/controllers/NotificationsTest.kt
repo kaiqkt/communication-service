@@ -5,10 +5,11 @@ import com.kaiqkt.commons.crypto.jwt.JWTUtils
 import com.kaiqkt.commons.security.auth.ROLE_USER
 import com.kaiqkt.services.communicationservice.ApplicationIntegrationTest
 import com.kaiqkt.services.communicationservice.domain.entities.NotificationHistorySampler
-import com.kaiqkt.services.communicationservice.generated.application.dto.NotificationHistoryV1
+import com.kaiqkt.services.communicationservice.generated.application.dto.NotificationV1
 import io.azam.ulidj.ULID
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.springframework.test.web.reactive.server.WebTestClient
 import kotlin.jvm.optionals.getOrNull
 
 class NotificationsTest : ApplicationIntegrationTest() {
@@ -29,8 +30,8 @@ class NotificationsTest : ApplicationIntegrationTest() {
             .exchange()
             .expectStatus()
             .isOk
-            .expectBody(NotificationHistoryV1::class.java)
-            .consumeWith { response ->
+            .expectBodyList(NotificationV1::class.java)
+            .consumeWith<WebTestClient.ListBodySpec<NotificationV1>> { response ->
                 val body = response.responseBody
                 Assertions.assertNotNull(body)
             }
