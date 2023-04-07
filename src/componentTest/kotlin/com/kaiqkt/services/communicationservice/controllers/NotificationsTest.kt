@@ -9,6 +9,7 @@ import com.kaiqkt.services.communicationservice.generated.application.dto.Notifi
 import io.azam.ulidj.ULID
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import kotlin.jvm.optionals.getOrNull
 
 class NotificationsTest : ApplicationIntegrationTest() {
 
@@ -50,6 +51,7 @@ class NotificationsTest : ApplicationIntegrationTest() {
             .isNotFound
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     @Test
     fun `given a request to update the notification, should return http status 204`(){
         val userId = ULID.random()
@@ -67,5 +69,10 @@ class NotificationsTest : ApplicationIntegrationTest() {
             .exchange()
             .expectStatus()
             .isNoContent
+
+
+        val notification = notificationHistoryRepository.findById(userId).getOrNull()!!.notifications.first()
+
+        Assertions.assertEquals(notification.isVisualized, true)
     }
 }
