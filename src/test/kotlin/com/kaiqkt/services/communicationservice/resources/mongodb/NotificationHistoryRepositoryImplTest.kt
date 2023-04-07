@@ -5,6 +5,7 @@ import com.kaiqkt.services.communicationservice.domain.entities.NotificationHist
 import com.kaiqkt.services.communicationservice.domain.entities.NotificationSampler
 import com.kaiqkt.services.communicationservice.domain.repositories.NotificationHistoryRepositoryCustom
 import com.kaiqkt.services.communicationservice.resources.exceptions.PersistenceException
+import com.mongodb.client.result.UpdateResult
 import io.azam.ulidj.ULID
 import io.mockk.every
 import io.mockk.mockk
@@ -15,7 +16,7 @@ import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 
-class NotificationHistoryRepositoryImplTest{
+class NotificationHistoryRepositoryImplTest {
     private val mongoTemplate: MongoTemplate = mockk(relaxed = true)
     private val repository: NotificationHistoryRepositoryCustom = NotificationHistoryRepositoryImpl(mongoTemplate)
 
@@ -46,5 +47,39 @@ class NotificationHistoryRepositoryImplTest{
         }
 
         verify { mongoTemplate.findAndModify(query, any(), any(), NotificationHistory::class.java) }
+    }
+
+    @Test
+    fun `given a notification to update, should update successfully`() {
+        val userId = ULID.random()
+        val notificationId = ULID.random()
+        val query = Query().addCriteria(Criteria.where("id").`is`(userId).and("notifications.id").`is`(notificationId))
+
+        every {
+            mongoTemplate.updateMulti(
+                any(),
+                any(),
+                NotificationHistory::class.java
+            )
+        } returns UpdateResult.acknowledged(1, null, null)
+
+        repository.updateNotification(userId, notificationId)
+
+        verify { mongoTemplate.updateMulti(query, any(), NotificationHistory::class.java) }
+    }
+
+    @Test
+    fun `given a notification to update, when fail, should throw a exception`() {
+        val userId = ULID.random()
+        val notificationId = ULID.random()
+        val query = Query().addCriteria(Criteria.where("id").`is`(userId).and("notifications.id").`is`(notificationId))
+
+        every { mongoTemplate.updateMulti(any(), any(), NotificationHistory::class.java) } throws Exception()
+
+        assertThrows<PersistenceException> {
+            repository.updateNotification(userId, notificationId)
+        }
+
+        verify { mongoTemplate.updateMulti(query, any(), NotificationHistory::class.java) }
     }
 }

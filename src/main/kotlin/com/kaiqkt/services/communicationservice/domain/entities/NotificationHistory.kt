@@ -9,6 +9,6 @@ data class NotificationHistory(
     @Id
     val id: String,
     val notifications: List<Notification> = listOf(),
-    val createdAt: LocalDateTime = LocalDateTime.now(),
-    val updatedAt: LocalDateTime? = null
+    val updatedAt: LocalDateTime? = null,
+    val createdAt: LocalDateTime = LocalDateTime.now()
 )

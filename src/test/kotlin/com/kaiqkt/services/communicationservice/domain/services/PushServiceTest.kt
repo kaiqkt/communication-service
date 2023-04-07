@@ -146,4 +146,16 @@ class PushServiceTest {
 
         verify { notificationHistoryRepository.findById(userId) }
     }
+
+    @Test
+    fun `given a visualized notification, should update in the notification history`(){
+        val userId = ULID.random()
+        val notificationId = ULID.random()
+
+        every { notificationHistoryRepository.updateNotification(any(), any()) } just runs
+
+        service.visualizeNotification(userId, notificationId)
+
+        verify { notificationHistoryRepository.updateNotification(userId, notificationId) }
+    }
 }

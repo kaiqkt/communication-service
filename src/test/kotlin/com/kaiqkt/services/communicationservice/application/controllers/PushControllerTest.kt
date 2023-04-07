@@ -6,6 +6,7 @@ import com.kaiqkt.services.communicationservice.application.dto.toDomain
 import com.kaiqkt.services.communicationservice.application.security.CustomAuthenticationSampler
 import com.kaiqkt.services.communicationservice.domain.entities.NotificationHistorySampler
 import com.kaiqkt.services.communicationservice.domain.services.PushService
+import io.azam.ulidj.ULID
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -26,9 +27,11 @@ class PushControllerTest {
 
         every { pushService.sendToQueue(any()) } just runs
 
-        controller.sendOne(push)
+        val response = controller.sendOne(push)
 
         verify { pushService.sendToQueue(push.toDomain()) }
+
+        Assertions.assertEquals(response.statusCode, HttpStatus.NO_CONTENT)
     }
 
     @Test
@@ -59,5 +62,21 @@ class PushControllerTest {
 
         Assertions.assertNull(response.body)
         Assertions.assertEquals(response.statusCode, HttpStatus.NOT_FOUND)
+    }
+
+
+    @Test
+    fun `given a notification id, should update in database and return http status 204`() {
+        SecurityContextHolder.getContext().authentication = CustomAuthenticationSampler.sample()
+
+        val notificationId = ULID.random()
+
+        every { pushService.visualizeNotification(any(), any()) }  just runs
+
+        val response = controller.visualize(notificationId)
+
+        verify { pushService.visualizeNotification(getUserId(), notificationId) }
+
+        Assertions.assertEquals(response.statusCode, HttpStatus.NO_CONTENT)
     }
 }

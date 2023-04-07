@@ -44,6 +44,12 @@ class PushService(
         }
     }
 
+    fun visualizeNotification(userId: String, notificationId: String) {
+        notificationHistoryRepository.updateNotification(userId, notificationId)
+
+        logger.info("Notification $notificationId updated in history of person $userId")
+    }
+
     @OptIn(ExperimentalStdlibApi::class)
     fun findNotificationHistory(userId: String): NotificationHistory? {
         val history = notificationHistoryRepository.findById(userId).getOrNull() ?: return null
