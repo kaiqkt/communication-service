@@ -162,10 +162,13 @@ components:
           type: string
         created_at:
           type: LocalDateTime
+        is_visualized:
+          type: boolean
       required:
         - title
         - body
         - created_at
+        - is_visualized
 
     NotificationHistoryV1:
       type: object
