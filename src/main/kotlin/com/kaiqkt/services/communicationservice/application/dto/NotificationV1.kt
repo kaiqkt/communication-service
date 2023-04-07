@@ -6,5 +6,6 @@ import com.kaiqkt.services.communicationservice.generated.application.dto.Notifi
 fun Notification.toV1() = NotificationV1(
     title = this.title,
     body = this.body,
-    createdAt = this.createdAt
+    createdAt = this.createdAt,
+    isVisualized = this.isVisualized
 )
