@@ -7,7 +7,7 @@ import com.kaiqkt.services.communicationservice.application.dto.toDomain
 import com.kaiqkt.services.communicationservice.application.dto.toV1
 import com.kaiqkt.services.communicationservice.domain.services.PushService
 import com.kaiqkt.services.communicationservice.generated.application.controllers.PushApi
-import com.kaiqkt.services.communicationservice.generated.application.dto.NotificationHistoryV1
+import com.kaiqkt.services.communicationservice.generated.application.dto.NotificationV1
 import com.kaiqkt.services.communicationservice.generated.application.dto.PushV1
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -33,9 +33,10 @@ class PushController(
     }
 
     @PreAuthorize(AUTHORIZE_USER)
-    override fun findAll(): ResponseEntity<NotificationHistoryV1> {
-        pushService.findNotificationHistory(getUserId())?.let {
-            return ResponseEntity.ok(it.toV1())
+    override fun findAll(): ResponseEntity<List<NotificationV1>> {
+        pushService.findNotificationHistory(getUserId())?.let { history ->
+            val notifications = history.notifications.map { it.toV1() }
+            return ResponseEntity.ok(notifications)
         } ?: return ResponseEntity.notFound().build()
     }
 }
