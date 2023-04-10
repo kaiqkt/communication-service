@@ -163,7 +163,7 @@ components:
         body:
           type: string
         created_at:
-          type: LocalDateTime
+          type: string
         is_visualized:
           type: boolean
       required:
