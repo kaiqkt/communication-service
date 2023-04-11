@@ -158,6 +158,8 @@ components:
     NotificationV1:
       type: object
       properties:
+        id:
+          type: string
         title:
           type: string
         body:
@@ -171,6 +173,7 @@ components:
         - body
         - created_at
         - is_visualized
+        - id
 
     ErrorResponseV1:
       type: object
