@@ -20,11 +20,11 @@ class OneSignalServiceImplTest{
         val title = "Title"
         val body = "Body"
 
-        every { oneSignalClient.sendPush(any(), any(), any()) } just runs
+        every { oneSignalClient.sendPush(any(), any(), any(), any()) } just runs
 
-        serviceImpl.sendOne(recipient, title, body)
+        serviceImpl.sendOne(recipient, title, body, mapOf())
 
-        verify { oneSignalClient.sendPush(recipient, title, body) }
+        verify { oneSignalClient.sendPush(recipient, title, body, mapOf()) }
     }
 
     @Test
@@ -33,12 +33,12 @@ class OneSignalServiceImplTest{
         val title = "Title"
         val body = "Body"
 
-        every { oneSignalClient.sendPush(any(), any(), any()) } throws ResourceException("")
+        every { oneSignalClient.sendPush(any(), any(), any(), any()) } throws ResourceException("")
 
         assertThrows<ResourceException> {
-            serviceImpl.sendOne(recipient, title, body)
+            serviceImpl.sendOne(recipient, title, body, mapOf())
         }
 
-        verify { oneSignalClient.sendPush(recipient, title, body) }
+        verify { oneSignalClient.sendPush(recipient, title, body, mapOf()) }
     }
 }

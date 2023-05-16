@@ -30,14 +30,15 @@ class PushService(
         try {
             val templateFile = templateFileRepository.find(push.template.url)
             val renderedTemplate = StringSubstitutor(push.template.data).replace(templateFile.content)
+            val additionData = mapOf("deepLink" to push.deepLink)
 
-            val notification = Notification(title = push.title, body = renderedTemplate)
+            val notification = Notification(title = push.subject, body = renderedTemplate)
 
             notificationHistoryRepository.insert(push.recipient, notification).also {
                 logger.info("Notification inserted in history of person ${push.recipient}")
             }
 
-            oneSignalService.sendOne(push.recipient, push.title, renderedTemplate)
+            oneSignalService.sendOne(push.recipient, push.subject, renderedTemplate, additionData)
 
         } catch (ex: Exception) {
             logger.error("Unable to send push, error: {${ex.message}}")

@@ -9,11 +9,7 @@ import com.kaiqkt.services.communicationservice.domain.repositories.Notification
 import com.kaiqkt.services.communicationservice.domain.repositories.TemplateFileRepository
 import com.kaiqkt.services.communicationservice.resources.exceptions.ResourceException
 import io.azam.ulidj.ULID
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.runs
-import io.mockk.verify
+import io.mockk.*
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -68,15 +64,32 @@ class PushServiceTest {
         val push = PushSampler.sample()
 
         every { templateFileRepository.find(any()) } returns templateFile
-        every { oneSignalService.sendOne(any(), any(), any()) } just runs
+        every { oneSignalService.sendOne(any(), any(), any(), any()) } just runs
         every { notificationHistoryRepository.insert(any(), any()) } just runs
 
         service.send(push)
 
         verify { templateFileRepository.find(push.template.url) }
-        verify { oneSignalService.sendOne(push.recipient, push.title, "<html>\${name}</html>") }
+        verify { oneSignalService.sendOne(push.recipient, push.subject, "<html>\${name}</html>", mapOf("deepLink" to push.deepLink!!)) }
         verify { notificationHistoryRepository.insert(push.recipient, any()) }
     }
+
+    @Test
+    fun `given a push to send for one signal without deep link, when find the template, should send successfully`() {
+        val templateFile = TemplateFileSampler.sample()
+        val push = PushSampler.sample().copy(deepLink = null)
+
+        every { templateFileRepository.find(any()) } returns templateFile
+        every { oneSignalService.sendOne(any(), any(), any(), any()) } just runs
+        every { notificationHistoryRepository.insert(any(), any()) } just runs
+
+        service.send(push)
+
+        verify { templateFileRepository.find(push.template.url) }
+        verify { oneSignalService.sendOne(push.recipient, push.subject, "<html>\${name}</html>", mapOf("deepLink" to null)) }
+        verify { notificationHistoryRepository.insert(push.recipient, any()) }
+    }
+
 
     @Test
     fun `given a push to send for one signal, when not find the template, should throw a exception`() {
@@ -87,7 +100,7 @@ class PushServiceTest {
         service.send(push)
 
         verify { templateFileRepository.find(push.template.url) }
-        verify(exactly = 0) { oneSignalService.sendOne(any(), any(), any()) }
+        verify(exactly = 0) { oneSignalService.sendOne(any(), any(), any(), mapOf()) }
         verify(exactly = 0) { notificationHistoryRepository.insert(any(), any()) }
     }
 
@@ -97,12 +110,12 @@ class PushServiceTest {
         val templateFile = TemplateFileSampler.sample()
 
         every { templateFileRepository.find(any()) } returns templateFile
-        every { oneSignalService.sendOne(any(), any(), any()) } throws ResourceException("")
+        every { oneSignalService.sendOne(any(), any(), any(), any()) } throws ResourceException("")
 
         service.send(push)
 
         verify { templateFileRepository.find(push.template.url) }
-        verify { oneSignalService.sendOne(any(), any(), any()) }
+        verify { oneSignalService.sendOne(any(), any(), any(), any()) }
         verify { notificationHistoryRepository.insert(any(), any()) }
     }
 
@@ -148,7 +161,7 @@ class PushServiceTest {
     }
 
     @Test
-    fun `given a visualized notification, should update in the notification history`(){
+    fun `given a visualized notification, should update in the notification history`() {
         val userId = ULID.random()
         val notificationId = ULID.random()
 

@@ -34,10 +34,24 @@ class OneSignalClientTest{
 
         mockServer.sendPush.mockSendPush()
 
-        client.sendPush(recipient, title, body)
+        client.sendPush(recipient, title, body, mapOf())
 
         mockServer.sendPush.verifySendPush(1)
     }
+
+    @Test
+    fun `given a push to send, when the deep link is null, should send successfully`(){
+        val recipient = ULID.random()
+        val title = "PUSH"
+        val body = "Push"
+
+        mockServer.sendPush.mockSendPush()
+
+        client.sendPush(recipient, title, body, mapOf())
+
+        mockServer.sendPush.verifySendPush(1)
+    }
+
 
     @Test
     fun `given a push to send, when occur a error, should send successfully`(){
@@ -48,7 +62,7 @@ class OneSignalClientTest{
         mockServer.sendPush.mockSendPushError()
 
         assertThrows<ResourceException> {
-            client.sendPush(recipient, title, body)
+            client.sendPush(recipient, title, body, mapOf())
         }
 
         mockServer.sendPush.verifySendPush(1)

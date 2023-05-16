@@ -4,8 +4,9 @@ import io.azam.ulidj.ULID
 
 object PushSampler {
     fun sample() = Push(
-        title = "push",
+        subject = "push",
         recipient = ULID.random(),
-        template = TemplateSampler.pushTemplateSample()
+        template = TemplateSampler.pushTemplateSample(),
+        deepLink = "Home"
     )
 }
