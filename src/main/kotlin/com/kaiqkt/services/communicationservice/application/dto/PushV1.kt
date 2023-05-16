@@ -4,7 +4,8 @@ import com.kaiqkt.services.communicationservice.domain.entities.Push
 import com.kaiqkt.services.communicationservice.generated.application.dto.PushV1
 
 fun PushV1.toDomain() = Push(
-    title = this.title,
+    subject = this.subject,
     recipient = this.recipient,
-    template = this.template.toDomain()
+    template = this.template.toDomain(),
+    deepLink = this.deepLink
 )

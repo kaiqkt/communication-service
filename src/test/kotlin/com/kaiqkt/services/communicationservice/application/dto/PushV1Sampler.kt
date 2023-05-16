@@ -5,7 +5,7 @@ import io.azam.ulidj.ULID
 
 object PushV1Sampler {
     fun sample() = PushV1(
-        title = "push",
+        subject = "push",
         recipient = ULID.random(),
         template = TemplateV1Sampler.samplePushTemplate()
     )

@@ -8,7 +8,7 @@ class OneSignalServiceImpl(
     private val oneSignalClient: OneSignalClient
 ): OneSignalService {
 
-    override fun sendOne(recipient: String, title: String, body: String) {
-        oneSignalClient.sendPush(recipient, title, body)
+    override fun sendOne(recipient: String, title: String, body: String, additionalData: Map<String, String?>) {
+        oneSignalClient.sendPush(recipient, title, body, additionalData)
     }
 }

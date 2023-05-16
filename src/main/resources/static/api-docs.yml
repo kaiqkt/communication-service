@@ -132,14 +132,16 @@ components:
     PushV1:
       type: object
       properties:
-        title:
+        subject:
           type: string
         recipient:
           type: string
         template:
           $ref: '#/components/schemas/TemplateV1'
+        deepLink:
+          type: string
       required:
-        - title
+        - subject
         - recipient
         - template
 

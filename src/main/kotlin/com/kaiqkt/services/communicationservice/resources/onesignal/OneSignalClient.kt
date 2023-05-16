@@ -22,16 +22,17 @@ class OneSignalClient(
     @Value("\${one-signal.auth-token}")
     private val authToken: String
 ) {
-    fun sendPush(recipient: String, title: String, body: String) {
+    fun sendPush(recipient: String, title: String, body: String, additionalData: Map<String, String?>) {
         logger.info("Sending push notification to $recipient")
 
         val request = PushRequest(
-            appId = appId,
-            headings = mapOf("en" to title),
-            contents = mapOf("en" to body),
-            channelForExternalUserIds = "push",
-            includeExternalUserIds = listOf(recipient)
-        )
+                appId = appId,
+                headings = mapOf("en" to title),
+                contents = mapOf("en" to body),
+                channelForExternalUserIds = "push",
+                includeExternalUserIds = listOf(recipient),
+                data = additionalData
+            )
 
         Fuel.post("$serviceUrl/api/v1/notifications")
             .header(
